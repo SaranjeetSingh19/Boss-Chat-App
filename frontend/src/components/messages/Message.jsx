@@ -1,23 +1,49 @@
 import React from "react";
+import { useAuthContext } from "../../context/authContext";
+import useConversation from "../../zustand/useConversation";
 
-const Message = () => {
+const Message = ({ message }) => {
+
+  
+
+  const { authUser } = useAuthContext();
+  const { selectedConversation } = useConversation();
+  const fromMe = message.senderId === authUser._id;
+  const chatClassName = fromMe ? "chat-end" : "chat-start";
+  const profilePic = fromMe
+    ? authUser.profilePic
+    : selectedConversation?.profilePic;
+  const bubbleBgColor = fromMe ? "bg-blue-500" : "";
+
+  function formatMongoTimestamp(timestamp) {
+    // Convert MongoDB timestamp to JavaScript Date object
+    const date = new Date(timestamp);
+  
+    // Format the time
+    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format as 'hh:mm AM/PM'
+    
+    return formattedTime;
+  }
+  const timestampFromMongoDB = message.createdAt;  
+  const formattedTime = formatMongoTimestamp(timestampFromMongoDB);
+
   return (
-    <div className="chat chat-end ">
+    <div className={`chat ${chatClassName} `}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
           <img
-            src="https://images.unsplash.com/photo-1710756115964-f949e92b97fb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Mnx8fGVufDB8fHx8fA%3D%3D"
+            src={profilePic}
             alt="Tailwind css chat bubble component "
           />
         </div>
       </div>
-      <div className={`chat-bubble text-white bg-blue-500`}>
-        Aur vaiSaab kaisa sb?{" "}
+      <div className={`chat-bubble text-white ${bubbleBgColor}`}>
+        {message.message}{" "}
       </div>
 
-      <div className="chat-footer opacity-50 text-xs gap-1 flex items-center">
+      <div className="chat-footer opacity-60 text-gray-500 text-xs gap-1 flex items-center">
         {" "}
-        12:42
+       {formattedTime}
       </div>
     </div>
   );

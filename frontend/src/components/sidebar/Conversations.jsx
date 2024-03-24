@@ -1,17 +1,25 @@
-import React from 'react'
-import OneConversation from './OneConversation'
+import React from "react";
+import OneConversation from "./OneConversation";
+import useGetConversations from "../../hooks/useGetConversations";
+import { randomEmoji } from "../../utils/getRandomEmoji";
 
 const Conversations = () => {
-  return (
-    <div className='py-2 flex flex-col overflow-auto'>
-        <OneConversation />
-        <OneConversation />
-        <OneConversation />
-        <OneConversation />
-        <OneConversation />
-        <OneConversation />
-    </div>
-  )
-}
+  const { loading, conversation } = useGetConversations();
+ 
 
-export default Conversations
+  return (
+    <div className="py-2 flex flex-col overflow-auto">
+      {conversation && conversation.map((conversation, index) => (
+
+        <OneConversation
+          key={conversation._id}
+          conversation={conversation}
+          emoji={randomEmoji()}
+          lastIndex={index === conversation.length - 1}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default Conversations;
