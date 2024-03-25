@@ -28,5 +28,4 @@ app.get("*", (req, res) => {
 
 server.listen(PORT, () => {
   connectToMongoDb();
-  console.log(`Backend server is running on ${PORT}`);
 });

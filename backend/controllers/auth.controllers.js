@@ -47,7 +47,6 @@ export const signup = async (req, res) => {
     }
   } catch (error) {
 
-    // console.log("Error in Signup controller", error.message);
     res.status(500).json({ error: "Oops.. Internal server error in SIGN UP" });
   }
 
@@ -78,7 +77,7 @@ export const login = async (req, res) => {
       profilePic: user.profilePic,
     });
   } catch (error) {
-    console.log("Error in login controller", error.message);
+    ("Error in login controller", error.message);
     res.status(500).json({ error: "Oops.. Internal server error in LOGIN" });
   }
 };
@@ -88,7 +87,6 @@ export const logout = async (req, res) => {
     res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({message: "Logged out successfully!"})
   } catch (error) {
-    console.log("Error in logout controller", error.message);
     res.status(500).json({ error: "Oops.. Internal server error in LOGOUT" });
   }
 };

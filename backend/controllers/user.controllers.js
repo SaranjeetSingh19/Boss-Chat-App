@@ -8,7 +8,6 @@ export const getUsersForSideBar = async (req, res) => {
 
     res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log(`Error in getUsersForSideBar controller:  ${error.message}`);
     res.status(500).json({ error: "Error in getUsersForSideBar" });
   }
 };
